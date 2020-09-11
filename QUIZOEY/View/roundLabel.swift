@@ -10,15 +10,20 @@ import UIKit
 
 class roundlabel :UILabel
 {
-    override func draw(_ rect: CGRect) {
-           super.draw(rect)
-           translatesAutoresizingMaskIntoConstraints = false
-           self.layer.cornerRadius = 5.0
-           self.clipsToBounds = true
-       }
-    
-    override func drawText(in rect: CGRect) {
-        let newrect = rect.insetBy(dx: 8.0, dy: 8.0)
-        super.drawText(in: newrect)
+    override init(frame: CGRect) {
+        
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        self.layer.cornerRadius = 5.0
+        self.clipsToBounds = true
     }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+//    override func drawText(in rect: CGRect) {
+//        let newrect = rect.insetBy(dx: 8.0, dy: 8.0)
+//        super.drawText(in: newrect)
+//    }
 }

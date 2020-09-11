@@ -10,10 +10,14 @@ import UIKit
 
 class roundButton: UIButton
 {
-    override func draw(_ rect: CGRect) {
-        super.draw(rect)
+    override init(frame: CGRect) {
+        super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
         self.layer.cornerRadius = 5.0
         self.clipsToBounds = true
-    }
+      }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+       }
 }

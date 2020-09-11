@@ -11,14 +11,27 @@ import UIKit
 class MenuViewController : UIViewController
 {
     
+    //MARK: Content View Of the the App
+    
     lazy var contentView : UIView =
     {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .systemRed
         view.addSubview(buttonView)
-        buttonView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80).isActive = true
+        view.addSubview(TitleLabel)
+        view.addSubview(myScoreView)
+        buttonView.topAnchor.constraint(equalTo: view.topAnchor, constant: 120).isActive = true
         buttonView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        TitleLabel.topAnchor.constraint(equalTo: view.bottomAnchor, constant: -300).isActive = true
+        TitleLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+        TitleLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
+        TitleLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        TitleLabel.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        myScoreView.topAnchor.constraint(equalTo: TitleLabel.bottomAnchor, constant: 20).isActive = true
+        myScoreView.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor, constant: 40).isActive = true
+        myScoreView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor, constant: -40).isActive = true
+       
         
         return view
         
@@ -32,10 +45,12 @@ class MenuViewController : UIViewController
     }()
     
     
+     //MARK: Button View
     lazy var buttonView :UIView = {
         let view = UIView()
+       
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.heightAnchor.constraint(equalToConstant: 800).isActive = true
+//        view.heightAnchor.constraint(equalToConstant: 400).isActive = true
         view.widthAnchor.constraint(equalToConstant: 300).isActive = true
         
         for(index,title) in titleView.enumerated()
@@ -44,7 +59,7 @@ class MenuViewController : UIViewController
             button.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(button)
             button.backgroundColor = .black
-            button.heightAnchor.constraint(equalToConstant: 60).isActive = true
+            button.heightAnchor.constraint(equalToConstant: 80).isActive = true
             button.widthAnchor.constraint(equalToConstant: 120).isActive = true
             button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
             button.setTitle(title, for: .normal)
@@ -71,44 +86,67 @@ class MenuViewController : UIViewController
         
         return view
     }()
-    private let Scoreview = UIView()
-    
+
     
     private let TitleLabel : UILabel =
     {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        
-        
+        label.text = "MULTIPLE CHOICE"
+        label.textAlignment = .center
+        label.font = UIFont.boldSystemFont(ofSize: 26)
+        label.textColor = .white
         return label
     }()
+     //MARK: Score view of the App
+    lazy var myScoreView: UIView =
+    {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(recentLabel)
+        view.addSubview(highscorelabel)
+        recentLabel.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        recentLabel.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        recentLabel.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        highscorelabel.topAnchor.constraint(equalTo: recentLabel.bottomAnchor, constant: 10).isActive = true
+        highscorelabel.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        highscorelabel.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        
+        return view
+    }()
     
-    
-    private let recentLabel: UILabel =
+     let recentLabel: UILabel =
     {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        
-        
+        label.text = "Recent score: 0"
+        label.heightAnchor.constraint(equalToConstant: 60).isActive = true
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = .white
+        label.clipsToBounds = true
         return label
     }()
     
-    private let highscorelabel : UILabel =
+     let highscorelabel : UILabel =
     {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        
-        
+        label.text = "HighScore: 0"
+        label.textColor = .white
+         label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.heightAnchor.constraint(equalToConstant: 60).isActive = true
+         label.clipsToBounds = true
         return label
     }()
     
     var gameButtons = [roundButton]()
     
+     //MARK: Title on each buttons
      let titleView = [
-        "Multiple Choice",
-        "Image Quizz",
-        "Right or wrong",
-        "Emoji Riddle"
+        "MULTIPLE CHOICE",
+        "IMAGE QUIZZ",
+        "RIGHT OR WRONG",
+        "EMOJI RIDDLE"
     ]
     
     override func viewDidLoad() {
@@ -122,6 +160,7 @@ class MenuViewController : UIViewController
         navigationController?.navigationBar.isHidden = true
     }
     
+     //MARK: The main View behind the content View
     func QuizAppView()
     {
         self.view.backgroundColor = .white
