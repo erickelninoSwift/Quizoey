@@ -12,7 +12,9 @@ class MenuViewController : UIViewController
 {
     
     //MARK: Content View Of the the App
-    
+    var Scoreindex:Int = 0
+    var titletoAssigned:String?
+   
     lazy var contentView : UIView =
     {
         let view = UIView()
@@ -53,7 +55,7 @@ class MenuViewController : UIViewController
 //        view.heightAnchor.constraint(equalToConstant: 400).isActive = true
         view.widthAnchor.constraint(equalToConstant: 300).isActive = true
         
-        for(index,title) in titleView.enumerated()
+        for(Scoreindex,title) in titleView.enumerated()
         {
             let button = roundButton()
             button.translatesAutoresizingMaskIntoConstraints = false
@@ -63,7 +65,7 @@ class MenuViewController : UIViewController
             button.widthAnchor.constraint(equalToConstant: 120).isActive = true
             button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
             button.setTitle(title, for: .normal)
-            button.tag = index
+            button.tag = Scoreindex
             gameButtons.append(button)
         }
         

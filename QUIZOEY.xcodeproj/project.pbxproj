@@ -15,6 +15,7 @@
 		7663B60425097B2E00E1B5FC /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7663B60325097B2E00E1B5FC /* MenuViewController.swift */; };
 		7663B60625099A6E00E1B5FC /* roundbutton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7663B60525099A6E00E1B5FC /* roundbutton.swift */; };
 		7663B60825099ADC00E1B5FC /* roundLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7663B60725099ADC00E1B5FC /* roundLabel.swift */; };
+		766C0DD2250EBF73008A60B7 /* extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766C0DD1250EBF73008A60B7 /* extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		7663B60325097B2E00E1B5FC /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		7663B60525099A6E00E1B5FC /* roundbutton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = roundbutton.swift; sourceTree = "<group>"; };
 		7663B60725099ADC00E1B5FC /* roundLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = roundLabel.swift; sourceTree = "<group>"; };
+		766C0DD1250EBF73008A60B7 /* extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = extensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 		7663B5FE250979BA00E1B5FC /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				766C0DD1250EBF73008A60B7 /* extensions.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -205,6 +208,7 @@
 				7663B5EB2509792300E1B5FC /* SceneDelegate.swift in Sources */,
 				7663B60425097B2E00E1B5FC /* MenuViewController.swift in Sources */,
 				7663B60825099ADC00E1B5FC /* roundLabel.swift in Sources */,
+				766C0DD2250EBF73008A60B7 /* extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
