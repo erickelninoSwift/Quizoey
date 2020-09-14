@@ -10,9 +10,17 @@ import UIKit
 
 class MenuViewController : UIViewController
 {
+    //MARK: PROPERTY
+    private var recentScore = [0,0,0,0]
+    private var highScore = [0,0,0,0]
+    private var scoreIndex = 0
+    private var timer = Timer()
+    
+    var midX:[NSLayoutConstraint]!
+    var leftConstraint:[NSLayoutConstraint]!
+    var rightConstraint:[NSLayoutConstraint]!
     
     //MARK: Content View Of the the App
-    var Scoreindex:Int = 0
     var titletoAssigned:String?
    
     lazy var contentView : UIView =
@@ -31,9 +39,14 @@ class MenuViewController : UIViewController
         TitleLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
         TitleLabel.heightAnchor.constraint(equalToConstant: 70).isActive = true
         myScoreView.topAnchor.constraint(equalTo: TitleLabel.bottomAnchor, constant: 20).isActive = true
-        myScoreView.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor, constant: 40).isActive = true
-        myScoreView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor, constant: -40).isActive = true
-       
+//        myScoreView.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor, constant: 40)
+//        myScoreView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor, constant: -40)
+        
+        midX = [myScoreView.centerXAnchor.constraint(equalTo: view.centerXAnchor)]
+        leftConstraint = [myScoreView.leftAnchor.constraint(equalTo: view.leftAnchor)]
+        rightConstraint = [myScoreView.rightAnchor.constraint(equalTo: view.rightAnchor)]
+        
+        NSLayoutConstraint.activate(midX)
         
         return view
         
@@ -55,7 +68,7 @@ class MenuViewController : UIViewController
 //        view.heightAnchor.constraint(equalToConstant: 400).isActive = true
         view.widthAnchor.constraint(equalToConstant: 300).isActive = true
         
-        for(Scoreindex,title) in titleView.enumerated()
+        for(index,title) in titleView.enumerated()
         {
             let button = roundButton()
             button.translatesAutoresizingMaskIntoConstraints = false
@@ -65,7 +78,7 @@ class MenuViewController : UIViewController
             button.widthAnchor.constraint(equalToConstant: 120).isActive = true
             button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
             button.setTitle(title, for: .normal)
-            button.tag = Scoreindex
+            button.tag = index
             gameButtons.append(button)
         }
         
@@ -85,6 +98,7 @@ class MenuViewController : UIViewController
         gameButtons[3].leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         gameButtons[3].rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         
+       
         
         return view
     }()
@@ -94,7 +108,7 @@ class MenuViewController : UIViewController
     {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "MULTIPLE CHOICE"
+   
         label.textAlignment = .center
         label.font = UIFont.boldSystemFont(ofSize: 26)
         label.textColor = .white
@@ -113,6 +127,10 @@ class MenuViewController : UIViewController
         highscorelabel.topAnchor.constraint(equalTo: recentLabel.bottomAnchor, constant: 10).isActive = true
         highscorelabel.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         highscorelabel.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+         
+        TitleLabel.text = titleView[scoreIndex]
+        recentLabel.text = "Recent Score : \(recentScore[scoreIndex])"
+        highscorelabel.text = "HighScore : \(highScore[scoreIndex])"
         
         return view
     }()
@@ -121,7 +139,6 @@ class MenuViewController : UIViewController
     {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Recent score: 0"
         label.heightAnchor.constraint(equalToConstant: 60).isActive = true
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.textColor = .white
@@ -133,7 +150,7 @@ class MenuViewController : UIViewController
     {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "HighScore: 0"
+
         label.textColor = .white
          label.font = UIFont.boldSystemFont(ofSize: 20)
         label.heightAnchor.constraint(equalToConstant: 60).isActive = true
@@ -154,12 +171,29 @@ class MenuViewController : UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         QuizAppView()
+        updatescopre()
+      
+    }
+    
+    func updatescopre()
+    {
+        recentScore = [UserDefaults.standard.integer(forKey: MCRecentScore),
+        UserDefaults.standard.integer(forKey: ImageRecentScore ),
+        UserDefaults.standard.integer(forKey: RightWrongRecentScore),
+        UserDefaults.standard.integer(forKey: EmojiRecentScore)]
+        
+        highScore = [UserDefaults.standard.integer(forKey: MChighestScoreId),
+        UserDefaults.standard.integer(forKey: ImagehighestScoreId ),
+        UserDefaults.standard.integer(forKey: RightWronghighestScoreId),
+        UserDefaults.standard.integer(forKey: EmojihighestScoreId)]
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.barStyle = .default
         navigationController?.navigationBar.isHidden = true
+        
     }
     
      //MARK: The main View behind the content View
@@ -171,6 +205,38 @@ class MenuViewController : UIViewController
         contentView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         contentView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -10).isActive = true
         contentView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
+        
+        timer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(nextScore), userInfo: nil, repeats: true)
     }
     
+    
+    @objc func nextScore()
+    {
+        if scoreIndex < (recentScore.count - 1)
+        {
+            scoreIndex += 1
+        }else
+        {
+            scoreIndex = 0
+        }
+        UIView.animate(withDuration: 3.0, animations: {
+            NSLayoutConstraint.deactivate(self.midX)
+            NSLayoutConstraint.activate(self.leftConstraint)
+            self.view.layoutIfNeeded()
+        }) { (completion:Bool) in
+            self.TitleLabel.text = self.titleView[self.scoreIndex]
+            self.recentLabel.text = "Recent : \(self.recentScore[self.scoreIndex])"
+            self.highscorelabel.text = "HighScore : \(self.highScore[self.scoreIndex])"
+            NSLayoutConstraint.deactivate(self.leftConstraint)
+            NSLayoutConstraint.activate(self.rightConstraint)
+            self.view.layoutIfNeeded()
+            
+            UIView.animate(withDuration: 1.0) {
+                NSLayoutConstraint.deactivate(self.rightConstraint)
+                NSLayoutConstraint.activate(self.midX)
+                self.view.layoutIfNeeded()
+            }
+        }
+        
+    }
 }
